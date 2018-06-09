@@ -1,0 +1,49 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+        swagger_version = '2.7.0'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.bytesw'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+bootJar {
+    baseName = 'docker'
+    version =  version
+    mainClassName = 'com.bytesw.docker.Application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    compile "org.springframework.boot:spring-boot-devtools"
+    compile "org.springframework.boot:spring-boot-starter-log4j2"
+
+    compile "io.springfox:springfox-swagger2:${swagger_version}"
+    compile "io.springfox:springfox-swagger-ui:${swagger_version}"
+    compile "com.google.code.gson:gson:2.8.5"
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
